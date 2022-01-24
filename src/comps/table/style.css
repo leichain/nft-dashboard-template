@@ -8,9 +8,42 @@
     border:1px solid #2D2D2D;
 }
 
+.table .active{
+  cursor: pointer;
+  
+}
+
+.table-data-active{
+  color:white;
+  text-align:right;
+  padding-right:25px;
+}
+
 .table .data-row{
   cursor: pointer;
 }
+
+.tableHeader{
+  display: flex;
+  align-items: center;
+  justify-content: end;
+}
+
+.tableHeader-collection{
+    display: flex;
+    align-items: center;
+}
+
+.tableHeader span{
+  margin-top: -5px;
+  margin-left:5px;
+}
+
+.tableHeader-collection span{
+  margin-top: -5px;
+  margin-left:5px;
+}
+
 
 .table .data-row:nth-child(even){
   background-color: #2D2D2D;

@@ -5,24 +5,28 @@
   padding:3rem;
 }
 
-
 .details{
   display: flex;
 }
 
 .details h3{
   margin:5px 0px 35px 0px;
+  cursor: pointer;
+}
+
+.details h3:hover{
+  color:#FF4C8B;
+}
+
+.share{
+  margin:5px;
 }
 
 .details  h2{
   margin:5px 0px 3px 0px;
 }
 
-.title-cont h3, h2{
-  white-space: nowrap; 
-  max-width: 80%;
-  overflow: hidden;
-  text-overflow: ellipsis; 
+.title-cont h3, h1{
 }
 
 .image{
@@ -80,7 +84,6 @@ min-width: 100%;
 }
 
 
-
 .collection-display{
   margin-top:30px;
   display: flex;
@@ -92,18 +95,29 @@ min-width: 100%;
   padding:3rem;
 }
 
-
 .nft{
   width:200px;
   height:200px;
   cursor: pointer;
   object-fit: contain;
   display: flex;
+  flex-direction: column;
   align-items:center;
   justify-content: center;
-  margin:8px 0px 8px 0px;
+  margin:32px 0px 32px 0px;
+  font-weight:bold;
+
 }
 
+.nft img{
+  margin-bottom:8px;
+  transition: all 0.3s ease;
+}
+
+.nft img:hover{
+ width:225px;
+ height:225px;
+}
 
 .collection-load {
   display: flex;
@@ -114,7 +128,6 @@ min-width: 100%;
   border-radius:10px;
   padding:3rem;
 }
-
 
 .collection-table {
   margin-top:20px;
@@ -136,4 +149,3 @@ min-width: 100%;
   font-size:24px;
   font-weight:bold;
 }
-

@@ -2,11 +2,10 @@
   padding:3rem 5rem 3rem 5rem;
   display: flex;
   align-items:center;
-  background-image: url('../../assets/Covalent-Background_5.jpg');
   background-position: center;
   background-repeat:no-repeat;
   background-size:cover;
-  height:15%;
+  height:10%;
 }
 
 .banner-section{
@@ -14,7 +13,6 @@
   align-items:center;
   cursor: pointer;
 }
-
 
 .banner-logo{
   min-width:100px;
@@ -34,7 +32,6 @@
   font-size:4rem;
   font-weight:lighter;
 }
-
 
 .banner-header h3{
   color:#FF4C8B;

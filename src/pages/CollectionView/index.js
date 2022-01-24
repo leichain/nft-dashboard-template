@@ -11,11 +11,11 @@ import axios from 'axios'
 import './style.css'
 import { CONFIG } from '../../config'
 import moment from 'moment';
+import axiosRetry from 'axios-retry';
+import { Icon, IconSize,} from "@blueprintjs/core";
 
 
-
-export default function CollectionView() {
-  let { address, id } = useParams();
+export default function CollectionView({light, vibrant, dark}) {
   const [nft, setNft] = useState([])
   const [graphData, setGraph] = useState([])
   const [weiData, setWei] = useState([])
@@ -25,6 +25,22 @@ export default function CollectionView() {
   const [graphErr, setErr] = useState(false)
   const history = useHistory();
   const currentDay =moment().format('YYYY-MM-DD')
+  let { address, id } = useParams();
+
+  let blockchain_id = id ? id : CONFIG.TEMPLATE.block_chain_id
+  let address_id = address ? address : CONFIG.TEMPLATE.collection_address
+
+
+    axiosRetry(axios, {
+      retries: 3, 
+      retryDelay: (retryCount) => {
+        console.log(`retry attempt: ${retryCount}`);
+        return retryCount * 2000; 
+      },
+      retryCondition: (error) => {
+        return error.response.status === 503;
+      },
+    });
   
   var formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -38,6 +54,8 @@ export default function CollectionView() {
     handleNft()
   },[])
 
+
+
   // Handle Graph data
   const handleGraph = async(filter) => {
     setGraphLoader(true)
@@ -49,10 +67,10 @@ export default function CollectionView() {
     // If filter is 0 (All time), apply different parameters
     let api_call = filter > 0 ? 
       // 2 dates (from - to)
-      `https://api.covalenthq.com/v1/${id}/nft_market/collection/${address}/?from=${from}&to=${currentDay}&key=${API_KEY}` 
+      `https://api.covalenthq.com/v1/${blockchain_id}/nft_market/collection/${address_id}/?from=${from}&to=${currentDay}&key=${API_KEY}` 
       : 
       // 1 date (current date - all data before it)
-      `https://api.covalenthq.com/v1/${id}/nft_market/collection/${address}/?to=${currentDay}&key=${API_KEY}`
+      `https://api.covalenthq.com/v1/${blockchain_id}/nft_market/collection/${address_id}/?to=${currentDay}&key=${API_KEY}`
 
     // Request for floor prices and add parameters to format for graph
       try{
@@ -60,8 +78,7 @@ export default function CollectionView() {
 
         // Organize response data to insert into graph
         setGraph(resp.data.data.items.map(i => ({x:i.opening_date, y:i.floor_price_quote_7d})).reverse())
-        setWei(resp.data.data.items.map(i => ({x:i.opening_date, y:i.floor_price_wei_7d})).reverse())
-
+        setWei(resp.data.data.items.map(i => ({x:i.opening_date, y:i.floor_price_wei_7d / 10 ** 18})).reverse())
         setErr(false)
       }catch(error){
           setErr(true)
@@ -75,14 +92,21 @@ export default function CollectionView() {
   // Request for collection data
   const handleCollection = async() => {
     try{
-      const resp = await axios.get(`https://api.covalenthq.com/v1/${id}/nft_market/collection/${address}/?&key=${API_KEY}`)
+      const resp = await axios.get(`https://api.covalenthq.com/v1/${blockchain_id}/nft_market/collection/${address_id}/?&key=${API_KEY}`)
       setData([...resp.data.data.items])
+      
+      if(CONFIG.TEMPLATE.title !== "" && !address){
+        CONFIG.TEMPLATE.title = `${resp.data.data.items[0].collection_name} Dashboard`
+      }
     }catch(error){
  
     }
 
-    // Call endpoint with 7 day parameters as default for graph
-    handleGraph(7)
+    if(CONFIG.TEMPLATE.timeseries_chart){
+      // Call endpoint with 7 day parameters as default for graph
+      handleGraph(7)
+    }
+
 
   }
 
@@ -91,12 +115,13 @@ export default function CollectionView() {
     let resp;
     let collection = []
     try{
-      resp = await axios.get(`https://api.covalenthq.com/v1/${id}/tokens/${address}/nft_token_ids/?quote-currency=USD&format=JSON&page-size=5&key=${API_KEY}`)
+      resp = await axios.get(`https://api.covalenthq.com/v1/${blockchain_id}/tokens/${address_id}/nft_token_ids/?quote-currency=USD&format=JSON&page-size=5&key=${API_KEY}`)
+
 
        // Request for nft metadata for display pictures
         for(let i of resp.data.data.items){
           try{
-            let resp2 = await axios.get(`https://api.covalenthq.com/v1/${id}/tokens/${address}/nft_metadata/${i.token_id}/?quote-currency=USD&format=JSON&key=${API_KEY}`)
+            let resp2 = await axios.get(`https://api.covalenthq.com/v1/${blockchain_id}/tokens/${address_id}/nft_metadata/${i.token_id}/?quote-currency=USD&format=JSON&key=${API_KEY}`)
             
             collection.push(resp2.data.data.items[0].nft_data != null ? resp2.data.data.items[0].nft_data[0] : {external_data : {image: ""}})
           }
@@ -114,13 +139,23 @@ export default function CollectionView() {
     <>
         <>
         <Banner
-          head={'NFT Market Cap'}
+          img={CONFIG.TEMPLATE.banner_picture !== "" ? CONFIG.TEMPLATE.banner_picture : null}
+          head={CONFIG.TEMPLATE.title}
           subhead={'Code Template'}
+          color={vibrant}
         />
         <div className="main">
-          <div className="back" onClick={()=>{history.goBack()}}>
-            <img src={Back}></img>
+          {!address ?
+          <div className="global" style={{color:light ? light :'#FF4C8B'}} onClick={()=>{history.push('/global')}}>
+            Global View 
+             <Icon icon={'chevron-right'} size={24} intent="primary" color={light ? light : '#FF4C8B'} className='icon'/>
           </div>
+          :
+          <div className="back" style={{color:light ? light : '#FF4C8B'}} onClick={()=>{history.goBack()}}>
+            <Icon icon={'chevron-left'} size={24} intent="primary" color={light ? light : '#FF4C8B'} className='icon'/>
+            Back
+          </div>
+          }
           <div className="content">
             <div className="info">
               <div className="image">
@@ -135,10 +170,19 @@ export default function CollectionView() {
               </div>
               <div className="details">
                 <div className="title-cont">
-                  <h2>Collection Address</h2>
-                  <h3>{address}</h3>
-                  <table className="collection-table">
-                    <tr className="title-row">
+                  <h1 style={{color:light}}>Collection Address </h1>
+                  <h3 onClick={()=>{
+                    if(blockchain_id == 1){
+                      window.open(`https://etherscan.io/address/${address_id}`, "_blank")
+                    }else if(blockchain_id == 137){
+                      window.open(`https://polygonscan.com/address/${address_id}`, "_blank")
+                    }else{
+                      window.open(`https://snowtrace.io/address/${address_id}`, "_blank")
+                    }
+
+                  }}>{address_id} <Icon icon={'share'} size={15} intent="primary" color={light ? light : '#FF4C8B'} className='share'/></h3>
+                  <table className="collection-table" >
+                    <tr className="title-row" style={{color:light}}>
                       <td>Ticker Symbol</td>
                       <td>24hr Volume</td>
                       <td>24hr Sold Count</td>
@@ -153,33 +197,35 @@ export default function CollectionView() {
               </div>
             </div>
           </div>
-          <div className="graph-cont">
-            {graphLoader &&
-              <div className="graph-loader">
-                <img src={Loader}></img>
-              </div> 
-            }
-            {graphErr &&
-              <div className="graph-err">
-                No data available between these dates
-              </div> 
-            }
-             <div className="graph-header">
-              <h2>Floor Price </h2>
-                <SelectDropdown
-                  options={CONFIG.GRAPH_OPTIONS}
-                  onChange={(e)=>{handleGraph(e.target.value)}}
+          {CONFIG.TEMPLATE.timeseries_chart &&
+            <div className="graph-cont">
+              {graphLoader &&
+                <div className="graph-loader">
+                  <img src={Loader}></img>
+                </div> 
+              }
+              {graphErr &&
+                <div className="graph-err">
+                  No data available between these dates
+                </div> 
+              }
+              <div className="graph-header">
+                <h2>Floor Price </h2>
+                  <SelectDropdown
+                    options={CONFIG.GRAPH_OPTIONS}
+                    onChange={(e)=>{handleGraph(e.target.value)}}
+                  />
+              </div>
+              <div className="graph">
+                <TimeSeries
+                  quote={graphData}
+                  wei={weiData}
                 />
+              </div>
             </div>
-            <div className="graph">
-              <TimeSeries
-                quote={graphData}
-                wei={weiData}
-              />
-            </div>
-          </div>
+          }
           <div className="bottom-section">
-            <h2>NFT Preview</h2>
+            <h1>NFT Preview (First 5)</h1>
             {activeLoader ? 
             <div className="collection-load">
               <img src={Loader}></img>
@@ -192,8 +238,9 @@ export default function CollectionView() {
                       <img onError={(event) => {
                         event.target.classList.add("error-image")
                         event.target.classList.remove("collection-img")
-                        }} className="collection-img" key={i} src={o ?.external_data?.image} onClick={()=>{history.push(`/nft/${address}/${o.token_id}/${id}`)}}>
+                        }} className="collection-img" key={i} src={o ?.external_data?.image} onClick={()=>{history.push(`/nft/${address_id}/${o.token_id}/${blockchain_id}`)}}>
                       </img>
+                      {o ?.external_data?.name}
                   </div>
                 )
               })}

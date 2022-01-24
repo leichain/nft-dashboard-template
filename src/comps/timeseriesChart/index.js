@@ -63,7 +63,7 @@ const graphData = {
       backgroundColor: 'rgba(255, 99, 132, 0.5)',
     },
     {
-      label: 'Floor Price Wei 7 Days',
+      label: 'Floor Price ETH 7 Days',
       yAxisID: 'B',
       data: wei,
       borderColor: 'rgb(	0	,216,	213)',
