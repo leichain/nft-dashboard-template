@@ -1,25 +1,26 @@
 {
   "files": {
-    "main.css": "/nft-market-cap/static/css/main.f9900834.chunk.css",
-    "main.js": "/nft-market-cap/static/js/main.ccbddf13.chunk.js",
-    "main.js.map": "/nft-market-cap/static/js/main.ccbddf13.chunk.js.map",
+    "main.css": "/nft-market-cap/static/css/main.60d3b99a.chunk.css",
+    "main.js": "/nft-market-cap/static/js/main.555939cd.chunk.js",
+    "main.js.map": "/nft-market-cap/static/js/main.555939cd.chunk.js.map",
     "runtime-main.js": "/nft-market-cap/static/js/runtime-main.f648e0a5.js",
     "runtime-main.js.map": "/nft-market-cap/static/js/runtime-main.f648e0a5.js.map",
-    "static/js/2.58a5b04c.chunk.js": "/nft-market-cap/static/js/2.58a5b04c.chunk.js",
-    "static/js/2.58a5b04c.chunk.js.map": "/nft-market-cap/static/js/2.58a5b04c.chunk.js.map",
+    "static/js/2.4483a616.chunk.js": "/nft-market-cap/static/js/2.4483a616.chunk.js",
+    "static/js/2.4483a616.chunk.js.map": "/nft-market-cap/static/js/2.4483a616.chunk.js.map",
     "index.html": "/nft-market-cap/index.html",
-    "static/css/main.f9900834.chunk.css.map": "/nft-market-cap/static/css/main.f9900834.chunk.css.map",
-    "static/js/2.58a5b04c.chunk.js.LICENSE.txt": "/nft-market-cap/static/js/2.58a5b04c.chunk.js.LICENSE.txt",
+    "static/css/main.60d3b99a.chunk.css.map": "/nft-market-cap/static/css/main.60d3b99a.chunk.css.map",
+    "static/js/2.4483a616.chunk.js.LICENSE.txt": "/nft-market-cap/static/js/2.4483a616.chunk.js.LICENSE.txt",
     "static/media/Back.8af6b2fe.svg": "/nft-market-cap/static/media/Back.8af6b2fe.svg",
-    "static/media/style.css": "/nft-market-cap/static/media/Covalent-Background_5.cc7bc02b.jpg",
+    "static/media/Covalent-Background_5.cc7bc02b.jpg": "/nft-market-cap/static/media/Covalent-Background_5.cc7bc02b.jpg",
     "static/media/App.css": "/nft-market-cap/static/media/alert.6e5425f9.svg",
+    "static/media/banner.e7e48588.png": "/nft-market-cap/static/media/banner.e7e48588.png",
     "static/media/covalent-logo-loop_dark_v2.d4efb9c1.gif": "/nft-market-cap/static/media/covalent-logo-loop_dark_v2.d4efb9c1.gif",
     "static/media/logo.00ecc9d5.svg": "/nft-market-cap/static/media/logo.00ecc9d5.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.f648e0a5.js",
-    "static/js/2.58a5b04c.chunk.js",
-    "static/css/main.f9900834.chunk.css",
-    "static/js/main.ccbddf13.chunk.js"
+    "static/js/2.4483a616.chunk.js",
+    "static/css/main.60d3b99a.chunk.css",
+    "static/js/main.555939cd.chunk.js"
   ]
 }
