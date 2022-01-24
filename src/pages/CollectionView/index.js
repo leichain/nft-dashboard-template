@@ -67,10 +67,10 @@ export default function CollectionView({light, vibrant, dark}) {
     // If filter is 0 (All time), apply different parameters
     let api_call = filter > 0 ? 
       // 2 dates (from - to)
-      `https://api.covalenthq.com/v1/${blockchain_id}/nft_market/collection/${address_id}/?from=${from}&to=${currentDay}&key=${API_KEY}` 
+      `https://api.covalenthq.com/v1/${blockchain_id}/nft_market/collection/${address_id}/?from=${from}&to=${currentDay}&key=ckey_docs` 
       : 
       // 1 date (current date - all data before it)
-      `https://api.covalenthq.com/v1/${blockchain_id}/nft_market/collection/${address_id}/?to=${currentDay}&key=${API_KEY}`
+      `https://api.covalenthq.com/v1/${blockchain_id}/nft_market/collection/${address_id}/?to=${currentDay}&key=ckey_docs`
 
     // Request for floor prices and add parameters to format for graph
       try{
@@ -92,11 +92,11 @@ export default function CollectionView({light, vibrant, dark}) {
   // Request for collection data
   const handleCollection = async() => {
     try{
-      const resp = await axios.get(`https://api.covalenthq.com/v1/${blockchain_id}/nft_market/collection/${address_id}/?&key=${API_KEY}`)
+      const resp = await axios.get(`https://api.covalenthq.com/v1/${blockchain_id}/nft_market/collection/${address_id}/?&key=ckey_docs`)
       setData([...resp.data.data.items])
       
       if(CONFIG.TEMPLATE.title !== "" && !address){
-        CONFIG.TEMPLATE.title = `${resp.data.data.items[0].collection_name} Dashboard`
+        CONFIG.TEMPLATE.title = `${resp.data.data.items[0].collection_name !== "" ? resp.data.data.items[0].collection_name : CONFIG.TEMPLATE.title } Dashboard`
       }
     }catch(error){
  
@@ -115,13 +115,13 @@ export default function CollectionView({light, vibrant, dark}) {
     let resp;
     let collection = []
     try{
-      resp = await axios.get(`https://api.covalenthq.com/v1/${blockchain_id}/tokens/${address_id}/nft_token_ids/?quote-currency=USD&format=JSON&page-size=5&key=${API_KEY}`)
+      resp = await axios.get(`https://api.covalenthq.com/v1/${blockchain_id}/tokens/${address_id}/nft_token_ids/?quote-currency=USD&format=JSON&page-size=5&key=ckey_docs`)
 
 
        // Request for nft metadata for display pictures
         for(let i of resp.data.data.items){
           try{
-            let resp2 = await axios.get(`https://api.covalenthq.com/v1/${blockchain_id}/tokens/${address_id}/nft_metadata/${i.token_id}/?quote-currency=USD&format=JSON&key=${API_KEY}`)
+            let resp2 = await axios.get(`https://api.covalenthq.com/v1/${blockchain_id}/tokens/${address_id}/nft_metadata/${i.token_id}/?quote-currency=USD&format=JSON&key=ckey_docs`)
             
             collection.push(resp2.data.data.items[0].nft_data != null ? resp2.data.data.items[0].nft_data[0] : {external_data : {image: ""}})
           }
@@ -188,9 +188,9 @@ export default function CollectionView({light, vibrant, dark}) {
                       <td>24hr Sold Count</td>
                     </tr>
                     <tr className ="data-row">
-                      <td>{collectionData[0]?.collection_ticker_symbol ? collectionData[0]?.collection_ticker_symbol : "null"}</td>
-                      <td> {collectionData[0]?.volume_quote_day ? formatter.format(collectionData[0]?.volume_quote_day).split('.')[0]  : "null"}</td>
-                      <td>{collectionData[0]?.unique_token_ids_sold_count_day ? collectionData[0]?.unique_token_ids_sold_count_day : "null"}</td>
+                      <td>{collectionData[0]?.collection_ticker_symbol ? collectionData[0]?.collection_ticker_symbol : 0}</td>
+                      <td> {collectionData[0]?.volume_quote_day ? formatter.format(collectionData[0]?.volume_quote_day).split('.')[0]  : 0}</td>
+                      <td>{collectionData[0]?.unique_token_ids_sold_count_day ? collectionData[0]?.unique_token_ids_sold_count_day : 0}</td>
                     </tr>
                   </table>
                 </div>

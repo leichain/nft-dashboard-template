@@ -1,6 +1,6 @@
 import './App.css';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import Global from './pages/Landing'
+import Global from './pages/GlobalView'
 import CollectionView from './pages/CollectionView'
 import NFTView from './pages/NFTView'
 import Logo from './assets/logo.svg'

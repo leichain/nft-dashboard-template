@@ -4,16 +4,16 @@
       {
         "id": "606a2f8f-a31e-49ef-8a9f-63e7f1e898ca",
         "line": 1,
-        "version": 770,
-        "index": 48
+        "version": 774,
+        "index": 0
       }
     ],
     "src/comps/timeseriesChart/index.js": [
       {
         "id": "7eeabec4-9fd6-4162-baa9-82f4af755327",
-        "line": 84,
-        "version": 962,
-        "index": 1891
+        "line": 1,
+        "version": 964,
+        "index": 0
       }
     ]
   }

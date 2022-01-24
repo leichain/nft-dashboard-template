@@ -40,7 +40,8 @@ export default function LandingPage({light, dark, vibrant}) {
     const handleMarket = async(id) => {
       setLoader(true)
       try{
-        const resp = await axios.get(`https://api.covalenthq.com/v1/${id}/nft_market/?&key=${API_KEY}`)
+        const resp = await axios.get(`https://api.covalenthq.com/v1/${id}/nft_market/?&key=ckey_docs`)
+        console.log(resp.data.data.items)
         setMarket(resp.data.data.items)
         setLoader(false)
       }catch (error) {

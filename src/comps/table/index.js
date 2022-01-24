@@ -96,25 +96,28 @@ const Table = ({data, onClick, color, load}) => {
         </th>
       </tr>
       {sortedData && sortedData.map((o,i)=>{
+        if(o.collection_name == ""){
+          console.log()
+        }
         return (
           <>
           {o.collection_address === CONFIG.TEMPLATE.collection_address ? 
            <tr key={i} ref={tableRef} className="active" style={{backgroundColor:color}} onClick={()=>{onClick(o.collection_address)}}>
-            <td className="collection-name" style={{fontWeight:"600"}}>{o.collection_name ? o.collection_name : "null"}</td>
-            <td className="table-data-active">{o.market_cap_quote ? formatter.format(o.market_cap_quote).split('.')[0] : "null"}</td>
-            <td className="table-data-active">{o.volume_quote_24h ? formatter.format(o.volume_quote_24h).split('.')[0] : "null"}</td>
-            <td className="table-data-active">{o.avg_volume_quote_24h ? formatter.format(o.avg_volume_quote_24h).split('.')[0] : "null"}</td>
-            <td className="table-data-active">{o.transaction_count_alltime ? o.transaction_count_alltime.toLocaleString() : "null"}</td>
-            <td className="table-data-active">{o.unique_wallet_purchase_count_alltime ? o.unique_wallet_purchase_count_alltime.toLocaleString() : "null"}</td>
+            <td className="collection-name" style={{fontWeight:"600"}}>{o.collection_name !== "" ? o.collection_name : o.collection_address}</td>
+            <td className="table-data-active">{o.market_cap_quote ? formatter.format(o.market_cap_quote).split('.')[0] : 0}</td>
+            <td className="table-data-active">{o.volume_quote_24h ? formatter.format(o.volume_quote_24h).split('.')[0] : 0}</td>
+            <td className="table-data-active">{o.avg_volume_quote_24h ? formatter.format(o.avg_volume_quote_24h).split('.')[0] : 0}</td>
+            <td className="table-data-active">{o.transaction_count_alltime ? o.transaction_count_alltime.toLocaleString() : 0}</td>
+            <td className="table-data-active">{o.unique_wallet_purchase_count_alltime ? o.unique_wallet_purchase_count_alltime.toLocaleString() : 0}</td>
           </tr>
            :
           <tr key={i} className="data-row" onClick={()=>{onClick(o.collection_address)}}>
-            <td className="collection-name" style={{fontWeight:"600"}}>{o.collection_name ? o.collection_name : "null"}</td>
-            <td className="table-data">{o.market_cap_quote ? formatter.format(o.market_cap_quote).split('.')[0] : "null"}</td>
-            <td className="table-data">{o.volume_quote_24h ? formatter.format(o.volume_quote_24h).split('.')[0] : "null"}</td>
-            <td className="table-data">{o.avg_volume_quote_24h ? formatter.format(o.avg_volume_quote_24h).split('.')[0] : "null"}</td>
-            <td className="table-data">{o.transaction_count_alltime ? o.transaction_count_alltime.toLocaleString() : "null"}</td>
-            <td className="table-data">{o.unique_wallet_purchase_count_alltime ? o.unique_wallet_purchase_count_alltime.toLocaleString() : "null"}</td>
+            <td className="collection-name" style={{fontWeight:"600"}}>{o.collection_name !== "" ? o.collection_name : o.collection_address}</td>
+            <td className="table-data">{o.market_cap_quote ? formatter.format(o.market_cap_quote).split('.')[0] : 0}</td>
+            <td className="table-data">{o.volume_quote_24h ? formatter.format(o.volume_quote_24h).split('.')[0] : 0}</td>
+            <td className="table-data">{o.avg_volume_quote_24h ? formatter.format(o.avg_volume_quote_24h).split('.')[0] : 0}</td>
+            <td className="table-data">{o.transaction_count_alltime ? o.transaction_count_alltime.toLocaleString() : 0}</td>
+            <td className="table-data">{o.unique_wallet_purchase_count_alltime ? o.unique_wallet_purchase_count_alltime.toLocaleString() : 0}</td>
           </tr>
           }
           </>

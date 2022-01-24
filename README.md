@@ -1,32 +1,98 @@
-![NFT Market Cap banner](public/nmc_banner.jpg)
+# Create Your NFT Collection Dashboard
+This code template is designed to get your own customized NFT Collection Dashboard up and running **in just minutes!**.
 
-# NFT Market Cap Demo App
-Just press `Run` to see this demo app in action with the following features:
+In `src/config.js`, simply set your:
+- NFT collection contract address
+- Blockchain `chain_id` where the contract address is deployed
+- Dashboard title and banner
 
-* A global summary table of NFT collections per selected blockchain, sorted by market cap
-* Ability to select a row in the global summary table to get a collection detail view and a preview of the first 5 NFTs in the collection 
-* Ability to select one of the NFTs and see its metadata
+That's it!
 
+## Live Demo
+Visit https://covalenthq.github.io/nft-market-cap/ for a live demo. 
 
-## Fork
-Feel free to fork this repl and use as you like. In order to run the demo app, you will need to:
+* On GitHub, the code is open sourced and available at https://github.com/covalenthq/nft-market-cap/tree/main
 
-1. Obtain your own Covalent API key [here](https://www.covalenthq.com/platform)
+* On our [**Replit page**](https://replit.com/@Covalent-Templates/NFT-Market-Cap-Demo?v=1), just press `Run` to see this NFT Collection Dashboard in action.
 
-2. In the sidebar, the icon with a padlock will take you to a pane where you can set environment variables. Create an environment variable **key** called: `REACT_APP_COVALENT_API` and set the value to be your Covalent API key from step 1. 
+The live demo displays:
+* An NFT collection dashboard page with a summary, a floor price graph and a preview of the first 5 NFTs in the collection 
+* Ability to see where your specific collection ranks in the global view of all NFT collections on a specific blockchain
+* Ability to select a specific NFT in your collection and see its metadata
 
-## Purpose
-The market cap of any crypto asset is an important metric for knowing how well that asset is performing. For getting the NFT market cap, there are various tools like CoinMarketCap or CoinGecko but none of them provides an endpoint for it.
+## Fork and Customize
+Fork and customize this NFT Collection template in just a few steps by updating the following code in `src/config.js`:
 
-The NFTMarketCap endpoints aim to fill that exact gap in the market by adding brand new series of NFT endpoints to the [Class A family](https://www.covalenthq.com/docs/api).
-
-## API Endpoints
-The two Covalent API endpoints used in this demo app include:
-
-1. Global view of Market Cap per blockchain:
 ```
-/{chain_id}/nft_market_cap
+TEMPLATE: {
+    // 1. Set your NFT collection contract address
+    "collection_address": "0x9498274b8c82b4a3127d67839f2127f2ae9753f4",
+
+    // 2. Set your blockchain chain ID where your NFT collection contract address is deployed (see below for value options)
+    "block_chain_id": "137",
+
+    // 3. Set the default title of your dashboard. If found, this template uses the NFT Collection name for the title.
+    "title": "My NFT Collection",
+
+    // 4. (Optional) Boolean for displaying the floor price chart
+    "timeseries_chart": true,
+
+    // 5. (Optional) Set your banner image
+    "banner_picture": "https://www.superflexfitness.com/wp-content/uploads/2017/03/3D-banner-background.jpg",
+  },
 ```
+
+## Deploy to GitHub pages
+This code template is designed to work seamlessly with GitHub pages. Simply do the following:
+
+1. Update the `homepage` field in `package.json` with the URL of your GitHub project page for this template or a custom domain. 
+
+2. Deploy the site by running `npm run deploy`
+
+3. On GitHub, ensure your project's settings use the `gh-pages` branch. 
+
+See https://create-react-app.dev/docs/deployment/#github-pages for details and if you run into any issues. 
+
+
+## Covalent API Endpoints
+The two Covalent API endpoints used in this code template include:
+
+1. Detail view of a specific collection:
+
+`/{chain_id}/nft_market_cap/{collection}`
+
+This endpoint allows one to drill down into the details of a collection and the response object looks like the following:
+```
+{
+  "data": {
+    "updated_at": "2021-12-19T05:25:26.926980Z",
+    "items": [
+      {
+        "chain_id": 1,
+        "collection_name": "MyCryptoHeroes:Land",
+        "collection_address": "0x617913dd43dbdf4236b85ec7bdf9adfd7e35b340",
+        "collection_ticker_symbol": "MCHL",
+        "volume_eth_24h": "0",
+        "volume_quote_24h": 0.0,
+        "average_volume_eth_24h": "0",
+        "average_volume_quote_24h": 0.0,
+        "eth_quote_rate": 3905.4487,
+        "opening_date": "2020-09-29",
+        "volume_eth_day": "500000000000000000",
+        "volume_quote_day": 176.95366,
+        "average_volume_eth_day": "500000000000000000",
+        "average_volume_quote_day": 176.95366,
+        "unique_token_ids_sold_count_day": 1,
+        "eth_quote_rate_day": 353.90732,
+        "quote_currency": "USD"
+      },
+```
+Data for the detail view is at a day granularity. 
+
+
+2. Global view of Market Cap per blockchain:
+
+`/{chain_id}/nft_market_cap`
 
 This endpoint provides a global view of multiple NFT collections from various marketplaces (from multiple chains) in a table that ranks them on their market cap.
 
@@ -60,38 +126,8 @@ The response object looks similar to the following:
       },
 ```
 
-2. Detail view of a specific collection:
-```
-/{chain_id}/nft_market_cap/{collection}
-```
-This endpoint allows one to drill down into the details of a collection and the response boject looks similar to the following:
-```
-{
-  "data": {
-    "updated_at": "2021-12-19T05:25:26.926980Z",
-    "items": [
-      {
-        "chain_id": 1,
-        "collection_name": "MyCryptoHeroes:Land",
-        "collection_address": "0x617913dd43dbdf4236b85ec7bdf9adfd7e35b340",
-        "collection_ticker_symbol": "MCHL",
-        "volume_eth_24h": "0",
-        "volume_quote_24h": 0.0,
-        "average_volume_eth_24h": "0",
-        "average_volume_quote_24h": 0.0,
-        "eth_quote_rate": 3905.4487,
-        "opening_date": "2020-09-29",
-        "volume_eth_day": "500000000000000000",
-        "volume_quote_day": 176.95366,
-        "average_volume_eth_day": "500000000000000000",
-        "average_volume_quote_day": 176.95366,
-        "unique_token_ids_sold_count_day": 1,
-        "eth_quote_rate_day": 353.90732,
-        "quote_currency": "USD"
-      },
-```
-Data for the detail view is at a day granularity. 
+While a default `COVALENT_API_KEY` is used for this code template, it is recommended you register and use your own free API key from: https://www.covalenthq.com/platform
 
 ## Feedback and Support
 
-If you have any questions, comments and feedback regarding this demo app, please message us in our Discord: https://covalenthq.com/discord
+If you have any questions, comments and feedback regarding this code template, please message us on Discord: https://covalenthq.com/discord
