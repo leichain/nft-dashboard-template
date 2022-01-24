@@ -9,11 +9,11 @@ In `src/config.js`, simply set your:
 That's it!
 
 ## Live Demo
-Visit https://covalenthq.github.io/nft-market-cap/ for a live demo. 
+Visit https://covalenthq.github.io/nft-dashboard-template/ for a live demo. 
 
-* On GitHub, the code is open sourced and available at https://github.com/covalenthq/nft-market-cap/tree/main
+* On GitHub, the code is open sourced and available at https://github.com/covalenthq/nft-dashboard-template/tree/main
 
-* On our [**Replit page**](https://replit.com/@Covalent-Templates/NFT-Market-Cap-Demo?v=1), just press `Run` to see this NFT Collection Dashboard in action.
+* On our [**Replit page**](https://replit.com/@Covalent-Templates/NFT-Collection-Dashboard-Template?v=1), just press `Run` to see this NFT Collection Dashboard in action.
 
 The live demo displays:
 * An NFT collection dashboard page with a summary, a floor price graph and a preview of the first 5 NFTs in the collection 
